@@ -202,6 +202,19 @@ if (mascot) {
 }
 
 attachSfx();
+
+// ===== First visit popup =====
+try {
+  const firstVisitKey = "annie_first_visit_v1";
+  if (!localStorage.getItem(firstVisitKey)) {
+    // small delay so it feels smooth after the page loads
+    setTimeout(() => {
+      openModal("Hi Annie 💙", "I made this little site for you because I miss you loads. Have a look around yeah 💙");
+    }, 700);
+    localStorage.setItem(firstVisitKey, "1");
+  }
+} catch {}
+
 // ===== Our song button =====
 const audio = document.getElementById("ourSong");
 const songBtn = document.getElementById("songBtn");
@@ -234,4 +247,3 @@ if (audio && songBtn && songStatus) {
   audio.addEventListener("pause", () => setSongUI(false));
   audio.addEventListener("play", () => setSongUI(true));
 }
-

@@ -233,6 +233,45 @@ h2{ margin:0 0 8px; font-size:1.55rem; }
 }
 .photo:hover img{ transform: scale(1.02); }
 
+/* Polaroid scrapbook photos */
+.photo.polaroid{
+  padding: 12px 12px 16px;
+  overflow: visible;
+}
+
+.photo.polaroid img{
+  border-radius: 18px;
+  height: 240px;
+}
+
+.photo.polaroid figcaption{
+  margin-top: 10px;
+  font-weight: 800;
+  color: rgba(18,35,60,.78);
+}
+
+.photo.polaroid::before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left: 30px;
+  width: 90px;
+  height: 26px;
+  border-radius: 10px;
+  background: rgba(255,241,184,.70);
+  border: 1px solid rgba(120,170,255,.18);
+  transform: rotate(-6deg);
+  box-shadow: 0 12px 25px rgba(120,170,255,.10);
+}
+
+.photos .photo.polaroid:nth-child(odd){ transform: rotate(-1.2deg); transition: transform .18s ease, filter .18s ease; }
+.photos .photo.polaroid:nth-child(even){ transform: rotate(1.1deg); transition: transform .18s ease, filter .18s ease; }
+
+.photos .photo.polaroid:hover{
+  transform: translateY(-4px) rotate(0deg);
+  filter: brightness(1.02);
+}
+
 /* Little list cards */
 .list{ display:grid; gap: 10px; }
 .card{
@@ -347,10 +386,10 @@ h2{ margin:0 0 8px; font-size:1.55rem; }
 .sticker-top{
   top: 90px;
   right: 6vw;
-  left: auto;          /* IMPORTANT: stops it using the old left positioning */
+  left: auto;
   width: 190px;
   transform: rotate(6deg);
-  z-index: 2;          /* below the text (.wrap is 5) */
+  z-index: 2;
 }
 
 @media (max-width: 680px){
@@ -448,3 +487,25 @@ h2{ margin:0 0 8px; font-size:1.55rem; }
   }
 }
 
+.envelope, .photo, .card, .song-card, .landing-card{
+  position: relative;
+}
+
+.envelope::after, .photo::after, .card::after, .song-card::after, .landing-card::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius: inherit;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .18s ease;
+  background: radial-gradient(600px 200px at 20% 0%, rgba(127,184,255,.35), transparent 55%),
+              radial-gradient(600px 200px at 80% 100%, rgba(255,182,214,.25), transparent 60%);
+}
+
+.envelope:hover::after,
+.photo:hover::after,
+.card:hover::after,
+.song-card:hover::after{
+  opacity:1;
+}
