@@ -124,7 +124,7 @@
 
         <button class="envelope reveal" data-sfx
           data-title="Open when you need a laugh"
-          data-message="Just think of me being scared of a spider or something. hehe">
+          data-message="If you need a laugh then imagine me trying to act hard then getting scared of a spider or something. hehe. I love you">
           <span class="pointer">click me</span>
           <span class="env-top"></span>
           <span class="env-heart"></span>
@@ -147,10 +147,28 @@
           <img src="assets/photos/2.jpg" alt="Photo 2" loading="lazy" />
         </figure>
 
-        <figure class="photo reveal" data-sfx data-full="assets/photos/3.jpg" data-caption="Miss you. Like… a lot.">
+        <figure class="photo reveal" data-sfx data-full="assets/photos/3.jpg" data-caption="Miss you. Like, a lot.">
           <img src="assets/photos/3.jpg" alt="Photo 3" loading="lazy" />
         </figure>
       </div>
+    </section>
+
+    <!-- OUR SONG -->
+    <section class="section">
+      <h2 class="reveal">Our song</h2>
+      <p class="muted reveal">Press play and pretend I'm there.</p>
+
+      <div class="song-card reveal">
+        <button class="btn" id="songBtn" data-sfx>Play 🎧</button>
+        <div class="song-meta">
+          <div class="song-title">We Fell in Love in October</div>
+          <div class="song-status" id="songStatus">Not playing</div>
+        </div>
+      </div>
+
+      <audio id="ourSong" preload="none">
+        <source src="assets/music/our-song.mp3" type="audio/mpeg">
+      </audio>
     </section>
 
     <!-- LITTLE THINGS -->

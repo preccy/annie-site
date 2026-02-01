@@ -202,3 +202,36 @@ if (mascot) {
 }
 
 attachSfx();
+// ===== Our song button =====
+const audio = document.getElementById("ourSong");
+const songBtn = document.getElementById("songBtn");
+const songStatus = document.getElementById("songStatus");
+
+function setSongUI(playing){
+  if (!songBtn || !songStatus) return;
+  songBtn.textContent = playing ? "Pause ⏸️" : "Play 🎧";
+  songStatus.textContent = playing ? "Now playing" : "Not playing";
+}
+
+if (audio && songBtn && songStatus) {
+  setSongUI(false);
+
+  songBtn.addEventListener("click", async () => {
+    try {
+      if (audio.paused) {
+        await audio.play();
+        setSongUI(true);
+      } else {
+        audio.pause();
+        setSongUI(false);
+      }
+    } catch (e) {
+      songStatus.textContent = "Tap again to play";
+    }
+  });
+
+  audio.addEventListener("ended", () => setSongUI(false));
+  audio.addEventListener("pause", () => setSongUI(false));
+  audio.addEventListener("play", () => setSongUI(true));
+}
+
