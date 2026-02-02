@@ -247,3 +247,31 @@ if (audio && songBtn && songStatus) {
   audio.addEventListener("pause", () => setSongUI(false));
   audio.addEventListener("play", () => setSongUI(true));
 }
+// ===== Love letter button =====
+const openLetterBtn = document.getElementById("openLetter");
+
+const loveLetter = `Annie,
+
+I wanted to write you something like always hehe.
+
+I love you. From the bottom of my heart. Even when we’re far apart and it’s annoying and I just want you next to me, you still feel like my person. I think about you all the time. The little things you say, your voice, your face, your laugh. You make every part of my life better.
+
+I’m proud of you as well. I know you deal with a lot and you still show up and keep going. I notice it. I notice you. And I’m always here for you to support you, even on the days you don’t feel like you’ve got it.
+
+I made this little site because I wanted you to have something that feels like me. Something you can open when you miss me, or when you’re stressed, or when you just want a reminder that you’re loved. Because you are. A lot.
+
+I know the distance is hard sometimes, but I’m not going anywhere. I want you, and I’m choosing you, and I’m excited for everything we’re going to do together.
+
+I'm going to update this website with more letters each month for you, and add new things.
+
+I can't wait to see you soon.
+
+I Love you,
+Tom 💙`;
+
+if (openLetterBtn) {
+  openLetterBtn.addEventListener("click", () => {
+    openModal("A letter for you 💙", loveLetter);
+  });
+}
+

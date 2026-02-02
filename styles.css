@@ -300,26 +300,44 @@ h2{ margin:0 0 8px; font-size:1.55rem; }
   z-index: 30;
 }
 .modal.show, .lightbox.show{ display:flex; }
+
 .modal-backdrop{
   position:absolute; inset:0;
   background: rgba(127,184,255,.18);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 0;
 }
+
+/* IMPORTANT: bring the card above the blur layer */
 .modal-card{
   position:relative;
+  z-index: 1;
   width: min(560px, 94vw);
   border:1px solid rgba(120,170,255,.26);
-  background: rgba(255,255,255,.80);
+  background: rgba(255,255,255,.84);
   border-radius: 26px;
   padding: 16px 16px 14px;
   box-shadow: 0 22px 70px rgba(120,170,255,.18);
 }
+
 .modal-top{
   display:flex; align-items:center; justify-content:space-between;
   gap: 10px;
 }
 .modal-card h3{ margin:0; }
-.modal-card p{ color: var(--muted); line-height:1.6; margin: 10px 0 0; }
+
+/* Letter-friendly formatting */
+.modal-card p{
+  color: var(--muted);
+  line-height:1.6;
+  margin: 10px 0 0;
+  white-space: pre-line;
+  max-height: 52vh;
+  overflow: auto;
+  padding-right: 6px;
+}
+
 .x{
   border:1px solid rgba(120,170,255,.26);
   background: rgba(255,255,255,.70);
@@ -329,8 +347,10 @@ h2{ margin:0 0 8px; font-size:1.55rem; }
   cursor:pointer;
 }
 
+/* Lightbox */
 .lightbox-card{
   position:relative;
+  z-index: 1;
   width: min(900px, 96vw);
   border:1px solid rgba(120,170,255,.26);
   background: rgba(255,255,255,.80);
