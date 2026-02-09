@@ -308,11 +308,17 @@ sendWhy.addEventListener("click", () => {
 /* --- Gift open -> letter reveal --- */
 const letterText = `Annie,
 
-I know this is cringe, but I don’t care.
-I just wanted you to know I genuinely adore you.
+I know its not always easy having me as your boyfriend,
+but I'll always love you. I hope you like the gifts I have for you
+this year, even if I am broke. I feel like I always buy you
+keepsakes so I went a different route this time hehe.
 
-You make my life better and I’m so glad you’re mine.
-Happy Valentine’s Day my love 💙
+I cant wait to spend time with you on our first holiday together,
+and hopefully many more to come.
+
+ps you are getting another handwritten letter also.
+
+UR AMAZING MY BABY
 
 Love,
 Tom`;
