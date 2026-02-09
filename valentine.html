@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Will you be my Valentine? 💙</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="valentine.css" />
+</head>
+
+<body>
+  <!-- Animated background decorations -->
+  <div class="bg" aria-hidden="true">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+
+    <div class="floaties" id="floaties"></div>
+
+    <!-- cute stickers (OpenMoji via unpkg) -->
+    <img class="sticker s1" alt="" src="https://unpkg.com/openmoji@15.0.0/color/svg/1F49D.svg">
+    <img class="sticker s2" alt="" src="https://unpkg.com/openmoji@15.0.0/color/svg/1F381.svg">
+    <img class="sticker s3" alt="" src="https://unpkg.com/openmoji@15.0.0/color/svg/1F388.svg">
+    <img class="sticker s4" alt="" src="https://unpkg.com/openmoji@15.0.0/color/svg/1F9F8.svg">
+  </div>
+
+  <!-- tiny top bar -->
+  <header class="topbar">
+    <div class="pill">
+      <span class="dot"></span>
+      <span>valentine.exe is running…</span>
+    </div>
+
+    <button class="sound" id="soundBtn" aria-label="Toggle sound" title="Sound">
+      🔊
+    </button>
+  </header>
+
+  <main class="stage">
+    <!-- Intro envelope -->
+    <section class="panel intro show" id="introPanel">
+      <div class="card big tilt" id="introCard">
+        <div class="title script">Hi Annie</div>
+        <div class="subtitle">I made you a tiny page…</div>
+
+        <div class="envelope" id="openEnvelope" role="button" tabindex="0" aria-label="Open the envelope">
+          <div class="env-back"></div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="env-heart"></div>
+          <div class="env-note">open me 💌</div>
+        </div>
+
+        <div class="tiny">tap the envelope (or click it) 💙</div>
+      </div>
+    </section>
+
+    <!-- The question -->
+    <section class="panel ask" id="askPanel" aria-hidden="true">
+      <div class="card tilt" id="askCard">
+        <div class="badge">IMPORTANT QUESTION</div>
+        <h1 class="headline">
+          <span id="typeLine"></span><span class="caret">▍</span>
+        </h1>
+
+        <div class="meter">
+          <div class="meter-label">chance of me crying:</div>
+          <div class="meter-bar">
+            <div class="meter-fill" id="meterFill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <p class="sub" id="subLine">
+          Be honest… but choose wisely 😭
+        </p>
+
+        <div class="choice-area" id="choiceArea">
+          <button class="btn yes" id="yesBtn">Yes 💙</button>
+          <button class="btn no" id="noBtn">No</button>
+        </div>
+
+        <div class="plea" id="pleaLine" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Awww how come -->
+    <section class="panel why" id="whyPanel" aria-hidden="true">
+      <div class="card tilt" id="whyCard">
+        <div class="badge soft">OKAY… 😔</div>
+        <h2 class="headline2">awww… how come?</h2>
+        <p class="sub">
+          (you can type something. i promise i won’t be dramatic… okay i will a bit)
+        </p>
+
+        <textarea class="textbox" id="whyText" rows="4" placeholder="type here…"></textarea>
+
+        <div class="row">
+          <button class="btn ghost" id="sendWhy">Send 💌</button>
+          <button class="btn yes" id="fineYes">Actually yes 💙</button>
+        </div>
+
+        <div class="tiny" id="whyResponse"></div>
+      </div>
+    </section>
+
+    <!-- YES screen -->
+    <section class="panel success" id="successPanel" aria-hidden="true">
+      <div class="card big tilt" id="successCard">
+        <div class="badge">LET’S GOOOOO</div>
+        <div class="title script">You just made my whole week</div>
+        <p class="sub">
+          i’m so lucky it’s actually stupid. i love you loads.
+        </p>
+
+        <div class="gift" id="giftBtn" role="button" tabindex="0" aria-label="Open the gift">
+          <div class="gift-box"></div>
+          <div class="gift-lid"></div>
+          <div class="gift-bow"></div>
+          <div class="gift-text">open your little message 🎁</div>
+        </div>
+
+        <div class="letter" id="letterBox" aria-hidden="true">
+          <div class="letter-title">A proper little love note 💙</div>
+          <div class="letter-body" id="letterBody"></div>
+        </div>
+
+        <div class="row">
+          <a class="btn ghost" href="annie.html">Back to the main site →</a>
+        </div>
+
+        <footer class="foot">
+          Emoji graphics: OpenMoji (CC BY-SA 4.0). Confetti: canvas-confetti.
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <!-- confetti library -->
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.js"></script>
+  <script defer src="valentine.js"></script>
+</body>
+</html>
