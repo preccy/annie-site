@@ -32,6 +32,79 @@ const letterBody   = document.getElementById("letterBody");
 const floaties     = document.getElementById("floaties");
 const soundBtn     = document.getElementById("soundBtn");
 
+/* ---------- logging (Formspree) ---------- */
+const LOGGING_ENABLED = true;
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xbdalwer";
+
+// Create a stable ID per browser (helps you group multiple events from one visit)
+function getSessionId(){
+  try{
+    let id = localStorage.getItem("val_session");
+    if (!id){
+      id = (crypto?.randomUUID?.() || (String(Math.random()).slice(2) + "-" + Date.now()));
+      localStorage.setItem("val_session", id);
+    }
+    return id;
+  }catch(_){
+    return "no-storage-" + Date.now();
+  }
+}
+
+function getClientMeta(){
+  const tz = (() => {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(_) { return ""; }
+  })();
+  return {
+    session: getSessionId(),
+    tz,
+    url: location.href,
+    ref: document.referrer || "",
+    ua: navigator.userAgent || "",
+    screen: `${window.screen?.width || ""}x${window.screen?.height || ""}`,
+    lang: navigator.language || ""
+  };
+}
+
+// lightweight dedupe so touch/click doesn't double-submit
+const _logLast = Object.create(null);
+
+async function logEvent(event, extra = {}){
+  if (!LOGGING_ENABLED) return;
+
+  const now = Date.now();
+  const key = event + ":" + JSON.stringify(extra);
+  if (_logLast[key] && (now - _logLast[key] < 500)) return;
+  _logLast[key] = now;
+
+  const payload = {
+    _subject: `Valentine page: ${event}`,
+    event,
+    ts: new Date().toISOString(),
+    ...getClientMeta(),
+    ...extra
+  };
+
+  try{
+    await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload),
+      // allow request to finish even if the tab navigates away
+      keepalive: true
+    });
+  }catch(_){
+    // fail silently so the page still works offline
+  }
+}
+
+// log page view once
+logEvent("page_loaded");
+/* ---------- end logging ---------- */
+
+
 /* ---------- sound (tiny WebAudio sfx) ---------- */
 let soundOn = true;
 let audioCtx = null;
@@ -71,6 +144,7 @@ soundBtn?.addEventListener("click", () => {
   soundOn = !soundOn;
   soundBtn.textContent = soundOn ? "🔊" : "🔇";
   beep("click");
+  logEvent("sound_toggled", { soundOn });
 });
 
 /* ---------- floaty hearts background ---------- */
@@ -147,6 +221,7 @@ function show(panel){
 /* ---------- intro envelope ---------- */
 function openIntro(){
   beep("click");
+  logEvent("envelope_opened");
   openEnvelope.classList.add("open");
   // tiny confetti pop on open (if lib loaded)
   setTimeout(() => {
@@ -232,11 +307,13 @@ function noEscalationMessage(){
 }
 
 function goWhyPanel(){
+  logEvent("why_panel_shown", { noCount });
   show(whyPanel);
   beep("click");
 }
 
-function goSuccess(){
+function goSuccess(source = "unknown"){
+  logEvent("choice", { choice: "yes", source, noCount });
   show(successPanel);
   beep("yes");
   megaConfetti();
@@ -250,8 +327,15 @@ function goSuccess(){
 
 /* --- NO events: click/touch/hover --- */
 function handleNo(e){
+  // debounce so touchstart + click doesn’t double-trigger
+  const _now = Date.now();
+  if (handleNo._last && (_now - handleNo._last < 220)) return;
+  handleNo._last = _now;
+
   e.preventDefault();
   noCount++;
+  if (noCount === 1) logEvent("no_clicked_first_time");
+  logEvent("no_clicked", { noCount });
 
   beep("no");
   updateMeter();
@@ -268,6 +352,7 @@ function handleNo(e){
     subLine.textContent = "be honest… but like… not that honest 😭";
   }else{
     // after 5 "please"s -> awww how come?
+    logEvent("choice", { choice: "no", source: "no_after_5", noCount });
     subLine.textContent = "ok… that hurt 💔";
     setTimeout(goWhyPanel, 250);
   }
@@ -285,13 +370,13 @@ noBtn.addEventListener("mouseenter", (e) => {
 
 /* --- YES events --- */
 yesBtn.addEventListener("click", () => {
-  goSuccess();
+  goSuccess("main_yes");
 });
 yesBtn.addEventListener("mouseenter", () => beep("hover"));
 
 /* --- WHY panel buttons --- */
 fineYes.addEventListener("click", () => {
-  goSuccess();
+  goSuccess("fine_yes");
 });
 
 sendWhy.addEventListener("click", () => {
@@ -301,6 +386,7 @@ sendWhy.addEventListener("click", () => {
     whyResponse.textContent = "type somethingggg 😭";
     return;
   }
+  logEvent("why_submitted", { message: msg, noCount });
   whyResponse.textContent = "okay… i hear you 💙 (still love you loads)";
   burstConfetti(0.18);
 });
@@ -324,6 +410,7 @@ Love,
 Tom`;
 
 function revealLetter(){
+  logEvent("gift_opened");
   beep("yes");
   giftBtn.classList.add("open");
   letterBox.style.display = "block";
@@ -383,3 +470,14 @@ function heartConfetti(){
 /* ---------- start on load ---------- */
 show(introPanel);
 typeLine.textContent = "";
+
+
+/* ---------- optional link logging ---------- */
+document.addEventListener("click", (e) => {
+  const a = e.target?.closest?.("a");
+  if (!a) return;
+  if (a.getAttribute("href") === "annie.html"){
+    logEvent("back_to_main_site_clicked");
+  }
+});
+
